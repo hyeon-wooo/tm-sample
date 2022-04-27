@@ -1,4 +1,4 @@
-import React, { MutableRefObject } from "react";
+import React, { MutableRefObject, useEffect } from "react";
 import styled from "styled-components";
 import palette from "../../styles/palette";
 import Input from "../common/Input";
@@ -103,6 +103,19 @@ const LoginBlock = styled.div`
 `;
 
 const Login = ({ onSubmit, initialUid, error }: LoginProps) => {
+  useEffect(() => {
+    // @ts-ignore
+    var naver_id_login: any = new window.naver_id_login(
+      "UzhGpoYO5JtK5jDfEdJg",
+      "https://tm-sample.vercel.app/naver-login-cb"
+    );
+    var state = naver_id_login.getUniqState();
+    naver_id_login.setButton("white", 2, 40);
+    naver_id_login.setDomain("https://tm-sample.vercel.app");
+    naver_id_login.setState(state);
+    naver_id_login.setPopup();
+    naver_id_login.init_naver_id_login();
+  }, []);
   return (
     <LoginBlock>
       <h2>반갑습니다!</h2>
@@ -147,10 +160,11 @@ const Login = ({ onSubmit, initialUid, error }: LoginProps) => {
           <img src="./images/google_icon.png" alt="google" />
           구글 로그인
         </button>
-        <button className="sns-btn naver-btn">
+        {/* <button className="sns-btn naver-btn">
           <img src="./images/naver_icon.png" alt="naver" />
           네이버 로그인
-        </button>
+        </button> */}
+        <div id="naver_id_login" className="sns-btn"></div>
         <button className="sns-btn kakao-btn">
           <img src="./images/kakao_icon.png" alt="kakao" />
           카카오 로그인
